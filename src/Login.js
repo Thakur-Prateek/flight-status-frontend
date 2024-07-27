@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { auth } from './firebaseConfig';
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import axios from 'axios';
+import Preferences from './Preferences';
 
 const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -11,6 +12,7 @@ const Login = () => {
   const [message, setMessage] = useState('');
   const [flightDetails, setFlightDetails] = useState(null);
   const [preferences, setPreferences] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   const setupRecaptcha = () => {
     window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
@@ -44,6 +46,7 @@ const Login = () => {
       .then((result) => {
         setMessage('User signed in successfully');
         const userId = result.user.uid;
+        setUserId(userId);
         fetchFlightDetails(userId);
         fetchPreferences(userId);
       }).catch((error) => {
@@ -65,7 +68,7 @@ const Login = () => {
   const fetchPreferences = async (userId) => {
     try {
       const response = await axios.get(`/preferences/${userId}`);
-      setPreferences(response.data);
+      setPreferences(response.data.preferences || {});
     } catch (error) {
       console.error(error);
       setMessage('Error fetching preferences');
@@ -105,14 +108,7 @@ const Login = () => {
           {/* Add more details as needed */}
         </div>
       )}
-      {preferences && (
-        <div>
-          <h2>Notification Preferences</h2>
-          <p>Email: {preferences.email}</p>
-          <p>SMS: {preferences.sms}</p>
-          {/* Add more preferences as needed */}
-        </div>
-      )}
+      {userId && <Preferences userId={userId} />}
     </div>
   );
 };
