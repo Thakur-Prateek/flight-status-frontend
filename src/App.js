@@ -1,14 +1,22 @@
-// src/App.js
-import React from 'react';
-import Login from './Login';
-import axios from 'axios';
-
-axios.defaults.baseURL = 'http://localhost:3000'; // Update with your backend server URL
+import React, { useState } from 'react';
+import Login from './components/Login';
+import FlightDetails from './components/FlightDetails';
 
 const App = () => {
+  const [user, setUser] = useState(null);
+
+  const handleLoginSuccess = (user) => {
+    console.log('Login successful, user:', user);
+    setUser(user);
+  };
+
   return (
     <div className="App">
-      <Login />
+      {!user ? (
+        <Login onLoginSuccess={handleLoginSuccess} />
+      ) : (
+        <FlightDetails user={user} />
+      )}
     </div>
   );
 };

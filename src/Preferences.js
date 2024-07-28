@@ -1,6 +1,7 @@
 // src/Preferences.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Box, TextField, Button, Typography } from '@mui/material';
 
 const Preferences = ({ userId }) => {
   const [preferences, setPreferences] = useState({
@@ -40,25 +41,40 @@ const Preferences = ({ userId }) => {
   };
 
   return (
-    <div>
-      <h2>Notification Preferences</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input type="email" name="email" value={preferences.email} onChange={handleChange} />
-        </div>
-        <div>
-          <label>SMS:</label>
-          <input type="text" name="sms" value={preferences.sms} onChange={handleChange} />
-        </div>
-        <div>
-          <label>WhatsApp:</label>
-          <input type="text" name="whatsapp" value={preferences.whatsapp} onChange={handleChange} />
-        </div>
-        <button type="submit">Update Preferences</button>
-      </form>
-      <p>{message}</p>
-    </div>
+    <Box sx={{ mt: 4 }}>
+      <Typography variant="h5">Notification Preferences</Typography>
+      <Box component="form" onSubmit={handleSubmit}>
+        <TextField
+          fullWidth
+          type="email"
+          name="email"
+          label="Email"
+          value={preferences.email}
+          onChange={handleChange}
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          fullWidth
+          type="text"
+          name="sms"
+          label="SMS"
+          value={preferences.sms}
+          onChange={handleChange}
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          fullWidth
+          type="text"
+          name="whatsapp"
+          label="WhatsApp"
+          value={preferences.whatsapp}
+          onChange={handleChange}
+          sx={{ mb: 2 }}
+        />
+        <Button type="submit" variant="contained">Update Preferences</Button>
+      </Box>
+      <Typography variant="body1" color="error">{message}</Typography>
+    </Box>
   );
 };
 
