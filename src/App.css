@@ -1,38 +1,206 @@
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f2f5;
+  background-size: cover;
+  transition: background-color 0.3s ease;
+}
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.header {
+  background-color: #003366; /* Indigo Airlines Navy Blue */
+  color: white;
+  padding: 20px;
+  font-size: 24px;
+  position: relative;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.footer {
+  background-color: #003366; /* Indigo Airlines Navy Blue */
+  color: white;
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.container {
+  padding: 20px;
+}
+
+.login-container {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 400px;
+  position: relative;
+}
+
+.login-container h2 {
+  margin-bottom: 20px;
+}
+
+.login-container input {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.login-container button {
+  background-color: #003366;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-container button:hover {
+  background-color: #002244;
+}
+
+.flight-details, .notification-settings {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 600px;
+  position: relative;
+}
+
+.flight-details h2, .notification-settings h2 {
+  margin-bottom: 20px;
+}
+
+.flight-details ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.flight-details li {
+  background-color: #e6f2ff;
+  border: 1px solid #003366;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 10px;
+  text-align: left;
+}
+
+.notification-settings label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.notification-settings input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+button.save-settings {
+  background-color: #003366;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button.save-settings:hover {
+  background-color: #002244;
+}
+
+/* Clip Art Styles */
+.clip-art {
+  position: absolute;
+  max-width: 100px;
+}
+
+.clip-art.airplane {
+  top: 20px;
+  left: 20px;
+}
+
+.clip-art.flight-path {
+  bottom: 20px;
+  left: 20px;
+}
+
+.clip-art.boarding-pass {
+  bottom: 20px;
+  right: 20px;
+}
+
+/* Light/Dark mode toggle switch */
+.switch {
+  position: absolute;
+  top: 20px;
+  right: 20px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  width: 50px;
+  height: 24px;
+  background-color: #ccc;
+  border-radius: 34px;
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+
+.slider:before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: white;
+  top: 3px;
+  left: 3px;
+  transition: transform 0.3s ease;
+}
+
+input:checked + .slider {
+  background-color: #003366;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+/* Background images */
+body.light-mode {
+  background-image: url('/light-mode-background.png'); /* Update with the actual path */
+}
+
+body.dark-mode {
+  background-image: url('/dark-mode-background.png'); /* Update with the actual path */
+  background-color: #121212;
+}
+
+.dark-mode .header, .dark-mode .footer {
+  background-color: #222;
+}
+
+.dark-mode .login-container, .dark-mode .flight-details, .dark-mode .notification-settings {
+  background-color: #333;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.dark-mode .login-container input, .dark-mode .flight-details li {
+  background-color: #444;
+  border: 1px solid #555;
 }

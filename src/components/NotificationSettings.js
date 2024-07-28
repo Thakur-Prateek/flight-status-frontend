@@ -88,7 +88,7 @@ const NotificationSettings = ({ user }) => {
           Browser Notifications
         </label>
       </div>
-      <button onClick={handleSave}>Save Settings</button>
+      <button className="save-settings" onClick={handleSave}>Save Settings</button>
       {message && <p>{message}</p>}
     </div>
   );
