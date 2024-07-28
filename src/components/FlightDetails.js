@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import NotificationSettings from './NotificationSettings';
 
 const FlightDetails = ({ user }) => {
   const [flights, setFlights] = useState([]);
@@ -41,6 +42,7 @@ const FlightDetails = ({ user }) => {
           </li>
         ))}
       </ul>
+      <NotificationSettings user={user} />
     </div>
   );
 };
