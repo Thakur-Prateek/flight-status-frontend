@@ -1,48 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import './App.css';
 import Login from './components/Login';
 import FlightDetails from './components/FlightDetails';
-import './App.css';
+import NotificationSettings from './components/NotificationSettings';
 
-const App = () => {
+function App() {
   const [user, setUser] = useState(null);
-  const [darkMode, setDarkMode] = useState(false);
 
-  useEffect(() => {
-    document.body.className = darkMode ? 'dark-mode' : 'light-mode';
-  }, [darkMode]);
-
-  const handleLoginSuccess = (user) => {
-    console.log('Login successful, user:', user);
-    setUser(user);
+  const handleLogin = (userData) => {
+    setUser(userData);
   };
 
   return (
     <div className="App">
       <header className="header">
-        Indigo Airlines Flight Status
-        <div className="switch">
-          <label>
-            <input
-              type="checkbox"
-              checked={darkMode}
-              onChange={() => setDarkMode(!darkMode)}
-            />
-            <span className="slider"></span>
-          </label>
-        </div>
+        Flight Status Notification System
       </header>
       <div className="container">
         {!user ? (
-          <Login onLoginSuccess={handleLoginSuccess} />
+          <Login onLogin={handleLogin} />
         ) : (
-          <FlightDetails user={user} />
+          <>
+            <FlightDetails userId={user.id} />
+            <NotificationSettings userId={user.id} />
+          </>
         )}
       </div>
       <footer className="footer">
-        &copy; {new Date().getFullYear()} Indigo Airlines. All rights reserved.
+        &copy; 2024 Indigo Airlines
       </footer>
     </div>
   );
-};
+}
 
 export default App;

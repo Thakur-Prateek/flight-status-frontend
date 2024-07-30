@@ -1,95 +1,78 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const NotificationSettings = ({ user }) => {
-  const [notifySMS, setNotifySMS] = useState(false);
-  const [notifyEmail, setNotifyEmail] = useState(false);
-  const [notifyWhatsApp, setNotifyWhatsApp] = useState(false);
-  const [notifyBrowser, setNotifyBrowser] = useState(false);
-  const [message, setMessage] = useState('');
+const NotificationSettings = ({ userId }) => {
+  const [settings, setSettings] = useState({
+    notify_sms: false,
+    notify_email: false,
+    notify_whatsapp: false,
+  });
 
   useEffect(() => {
     const fetchNotificationSettings = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/notifications/${user.id}`);
+        const response = await axios.get(`http://localhost:3001/notifications/${userId}`);
         if (response.data.success) {
-          const { notify_sms, notify_email, notify_whatsapp, notify_browser } = response.data.notification;
-          setNotifySMS(notify_sms);
-          setNotifyEmail(notify_email);
-          setNotifyWhatsApp(notify_whatsapp);
-          setNotifyBrowser(notify_browser);
+          setSettings(response.data.notification);
         }
       } catch (err) {
         console.error('Error fetching notification settings:', err);
       }
     };
-    fetchNotificationSettings();
-  }, [user.id]);
 
-  const handleSave = async () => {
+    fetchNotificationSettings();
+  }, [userId]);
+
+  const handleSaveSettings = async () => {
     try {
-      const response = await axios.post(`http://localhost:3001/notifications/${user.id}`, {
-        notify_sms: notifySMS,
-        notify_email: notifyEmail,
-        notify_whatsapp: notifyWhatsApp,
-        notify_browser: notifyBrowser
-      });
-      if (response.data.success) {
-        setMessage('Notification settings updated successfully');
-      } else {
-        setMessage('Failed to update notification settings');
-      }
+      await axios.post(`http://localhost:3001/notifications/${userId}`, settings);
+      alert('Settings saved successfully.');
     } catch (err) {
-      console.error('Error updating notification settings:', err);
-      setMessage('Error updating notification settings');
+      console.error('Error saving notification settings:', err);
+      alert('An error occurred while saving settings. Please try again.');
     }
+  };
+
+  const handleChange = (e) => {
+    setSettings({
+      ...settings,
+      [e.target.name]: e.target.checked,
+    });
   };
 
   return (
     <div className="notification-settings">
-      <h2>Notification Settings</h2>
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            checked={notifySMS}
-            onChange={() => setNotifySMS(!notifySMS)}
-          />
-          SMS Notifications
-        </label>
-      </div>
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            checked={notifyEmail}
-            onChange={() => setNotifyEmail(!notifyEmail)}
-          />
-          Email Notifications
-        </label>
-      </div>
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            checked={notifyWhatsApp}
-            onChange={() => setNotifyWhatsApp(!notifyWhatsApp)}
-          />
-          WhatsApp Notifications
-        </label>
-      </div>
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            checked={notifyBrowser}
-            onChange={() => setNotifyBrowser(!notifyBrowser)}
-          />
-          Browser Notifications
-        </label>
-      </div>
-      <button className="save-settings" onClick={handleSave}>Save Settings</button>
-      {message && <p>{message}</p>}
+      <h2>🔔Notification Settings</h2>
+      <label>
+        <input
+          type="checkbox"
+          name="notify_sms"
+          checked={settings.notify_sms}
+          onChange={handleChange}
+        />
+        SMS Notifications
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          name="notify_email"
+          checked={settings.notify_email}
+          onChange={handleChange}
+        />
+        Email Notifications
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          name="notify_whatsapp"
+          checked={settings.notify_whatsapp}
+          onChange={handleChange}
+        />
+        WhatsApp Notifications
+      </label>
+      <button className="save-settings" onClick={handleSaveSettings}>
+        💾Save Settings
+      </button>
     </div>
   );
 };

@@ -1,48 +1,48 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import NotificationSettings from './NotificationSettings';
 
-const FlightDetails = ({ user }) => {
+const FlightDetails = ({ userId }) => {
   const [flights, setFlights] = useState([]);
-  const [error, setError] = useState('');
 
   useEffect(() => {
-    const fetchFlights = async () => {
+    const fetchFlightDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/flights/${user.id}`);
-        console.log('Flight details response:', response);
-
+        const response = await axios.get(`http://localhost:3001/flights/${userId}`);
         if (response.data.success) {
           setFlights(response.data.flights);
-        } else {
-          setError(response.data.message);
         }
       } catch (err) {
         console.error('Error fetching flight details:', err);
-        setError('Error fetching flight details');
       }
     };
 
-    fetchFlights();
-  }, [user.id]);
+    fetchFlightDetails();
+  }, [userId]);
 
   return (
     <div className="flight-details">
       <h2>Flight Details</h2>
-      {error && <p className="error">{error}</p>}
       <ul>
-        {flights.map(flight => (
+        {flights.map((flight) => (
           <li key={flight.id}>
-            <p>Flight Number: {flight.flight_number}</p>
-            <p>Departure Time: {new Date(flight.departure_time).toLocaleString()}</p>
-            <p>Arrival Time: {new Date(flight.arrival_time).toLocaleString()}</p>
-            <p>Status: {flight.status}</p>
-            <p>Gate: {flight.gate}</p>
-            <p>Terminal: {flight.terminal}</p>
+           <div className="flight-info">
+              <span>🔢</span> Flight Number: {flight.flight_number}
+              <br />
+              <span>🛫</span> Departure Time: {flight.departure_time}
+              <br />
+              <span>🛬</span> Arrival Time: {flight.arrival_time}
+              <br />
+              <span>📅</span> Status: {flight.status}
+              <br />
+              <span>🛤️</span> Gate: {flight.gate}
+              <br />
+              <span>🏢</span> Terminal: {flight.terminal}
+              <br />
+              <span>📍</span> Destination: {flight.destination}
+            </div>
           </li>
         ))}
       </ul>
-      <NotificationSettings user={user} />
     </div>
   );
 };
